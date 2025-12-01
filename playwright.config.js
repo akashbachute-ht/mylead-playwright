@@ -1,34 +1,36 @@
-// @ts-check
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-/**
- * @see https://playwright.dev/docs/test-configuration
- */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
   retries: 1,
   workers: 4,
 
-  /* Reporters */
   reporter: [
     ['html'],
     ['allure-playwright', { outputFolder: 'allure-results' }]
   ],
 
-  /* Shared settings */
   use: {
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     headless: true,
+    storageState: 'e2e/.auth/state.json'      // 👈 ALL TESTS USE SESSION
   },
 
-  /* Run only Chromium browser */
+  globalSetup: path.join(__dirname, './global-setup.js'),
+
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome']
+      }
     }
   ]
 });

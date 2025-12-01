@@ -1,19 +1,27 @@
-import {test,expect} from '@playwright/test';
-import data from '../utils/testData.js';
-import { LoginPage } from '../pages/ LoginPage';
+import { LoginPage } from './ LoginPage.js';
+import { DashboardPage } from './DashboardPage.js';
+import { BasePage } from './BasePage.js';
+
 
 class PageObjectManager {
-    constructor(page) {
-        this.loginPage = new LoginPage(page);
-        // Initialize other page objects as needed
-    }
+  constructor(page) {
+    this.page = page;
+    this.loginPage = new LoginPage(page);
+    this.dashboardPage = new DashboardPage(page);
+    this.basePage = new BasePage(page);
+  }
 
+  getLoginPage() {
+    return this.loginPage;
+  }
 
-    getLoginPage() {
-        return this.loginPage;
-    }
+  getDashboardPage() {
+    return this.dashboardPage;
+  }
 
-    // Add getters for other page objects as needed
+  getBasePage() {
+    return this.basePage;
+  }
 }
 
-module.exports = { PageObjectManager };
+export { PageObjectManager };

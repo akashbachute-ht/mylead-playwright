@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 import { testData } from '../../utils/testData.js';
 import { PageObjectManager } from '../../pages/PageObjectManager.js';
 
+test.use({ storageState: null });
+
 test.describe('Login Functionality', () => {
   let pageObjectManager;
   let loginPage;
